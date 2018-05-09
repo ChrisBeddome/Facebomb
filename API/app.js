@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const config = require("./config/config");
 const errorHandler = require("./middleware/errorHandler");
+const entryPoint = require("./routes/entryPoint");
 
 //logging
 app.use(morgan("dev"));
@@ -13,6 +14,9 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
+
+//entry point to API
+app.use("/", entryPoint);
 
 //error handling
 app.use(errorHandler.generateNotFoundError); //only called if error not thrown elsewhere
