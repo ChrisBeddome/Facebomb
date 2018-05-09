@@ -2,7 +2,7 @@
   "name": "facebomb_api",
   "version": "1.0.0",
   "description": "server api for facebomb",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
