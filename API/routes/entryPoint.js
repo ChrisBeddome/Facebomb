@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const testRoute = require("./test");
+const registerRoute = require("./register");
 
-router.use("/test", testRoute);
+router.use("/register", registerRoute);
 
 module.exports = router;

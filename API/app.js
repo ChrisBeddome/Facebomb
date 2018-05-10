@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const mysql = require('mysql');
 const config = require("./config/config");
 const errorHandler = require("./middleware/errorHandler");
 const entryPoint = require("./routes/entryPoint");
