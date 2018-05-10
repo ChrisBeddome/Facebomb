@@ -1,4 +1,4 @@
-# Facebomb
+# Jam Buds
 
 ## Setup
 
