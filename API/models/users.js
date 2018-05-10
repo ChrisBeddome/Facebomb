@@ -22,14 +22,14 @@ const getUser = (criteria) => {
 
     try {
       const response = await conn.query(sql, values);
-      resolve(response);
+      const user = response.length > 0 ? response[0] : null;
+      resolve(user);
     } catch (e) {
       const error = new Error(e.sqlMessage);
       error.clientMessage = "Database error";
-      error.status = 400;
+      error.status = 500;
       reject(error);
     }
-
     conn.close();
   });
 }
@@ -63,5 +63,53 @@ const insertUser = (email, username, password) => {
   });
 };
 
+const authenticateUser = (email, password) => {
+  const conn = new db();
+  const sql = "SELECT id, email, username, password FROM users WHERE email = ?";
+  const values = [email];
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await conn.query(sql, values);
+
+      //if no user is returned, email was incorrect
+      if (response.length < 1) {
+        const error = new Error("Invalid login credentials");
+        error.clientMessage = "Invalid login credentials";
+        error.status = 400;
+        reject(error);
+        return;
+      }
+
+      const user = response[0];
+      bcrypt.compare(password, user.password, (error, match) => {
+        if (error) {
+          const error = new Error(error.message);
+          error.clientMessage = "Database error";
+          error.status = 500;
+          reject(error);
+          return;
+        }
+
+        if (match) {
+          resolve(user);
+        } else {
+          //if passwords do not match
+          const error = new Error("Invalid login credentials");
+          error.clientMessage = "Invalid login credentials";
+          error.status = 500;
+          reject(error);
+        }
+      });
+    } catch (e) {
+      const error = new Error(e.sqlMessage);
+      error.clientMessage = "Database error";
+      error.status = 500;
+      reject(error);
+    }
+  });
+};
+
 module.exports.insertUser = insertUser;
 module.exports.getUser = getUser;
+module.exports.authenticateUser = authenticateUser;

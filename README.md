@@ -30,5 +30,21 @@ parameters:
 * username - string - required
 * password - string - required
 
+returns:
+* status message
+* data object containing user id, username, and email
+
+**/login**: 
+
+POST: Log in to a registered account.
+
+parameters: 
+* email - string - required
+* password - string - required
+
+returns:
+* status message
+* data object containing user id, username, email, and access token
+
 
 

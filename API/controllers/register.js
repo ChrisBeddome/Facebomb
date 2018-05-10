@@ -1,4 +1,3 @@
-const db = require("./../services/db");
 const usersModel = require("./../models/users");
 
 const registerNewUser = async (req, res, next) => {
@@ -6,17 +5,19 @@ const registerNewUser = async (req, res, next) => {
   try {
     //check if email or username is  already in use
     let emailResponse = await usersModel.getUser({ email });
-    let usernameResponse = await usersModel.getUser({ username })
+    let usernameResponse = await usersModel.getUser({ username });
 
-    if (emailResponse.length > 0 || usernameResponse.length > 0) {
-      const error = emailResponse.length > 0 ? new Error("Email already in use") : new Error("Username already in use");
-      error.clientMessage = emailResponse.length > 0 ? "Email already in use" : "Username already in use";
+    if (emailResponse || usernameResponse) {
+      const error = emailResponse ? new Error("Email already in use") : new Error("Username already in use");
+      error.clientMessage = emailResponse ? "Email already in use" : "Username already in use";
       error.status = 400;
       next(error);
     } else {
+      //insert user into database
       response = await usersModel.insertUser(email, username, password);
-      let userInfo = await usersModel.getUser({ id: response.insertId });
-      userInfo = userInfo[0];
+
+      //get users information and return success message to client
+      const userInfo = await usersModel.getUser({ id: response.insertId });
       res.status(201);
       res.json({
         message: "User registered",
