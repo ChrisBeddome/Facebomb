@@ -13,7 +13,7 @@ CREATE TABLE users (
     primary key (id)
 );
 
-GRANT ALL PRIVILEGES ON facebomb.* TO 'jam_buds_admin'@'localhost' IDENTIFIED BY 'jam_buds_secret123';
+GRANT ALL PRIVILEGES ON jam_buds.* TO 'jam_buds_admin'@'localhost' IDENTIFIED BY 'jam_buds_secret123';
 
 
 

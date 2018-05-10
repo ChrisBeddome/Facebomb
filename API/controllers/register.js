@@ -15,9 +15,10 @@ const registerNewUser = async (req, res, next) => {
       userInfo = userInfo[0];
       res.status(201);
       res.json({
+        id: userInfo.id,
         email: userInfo.email,
         firstName: userInfo.first_name,
-        last_name: userInfo.last_name
+        lastname: userInfo.last_name
       });
     }
   } catch (error) {

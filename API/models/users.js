@@ -1,4 +1,5 @@
 const db = require("./../services/db");
+const helpers = require("./../services/helpers");
 
 const getUser = (criteria) => {
   const conn = new db();
@@ -7,8 +8,17 @@ const getUser = (criteria) => {
 
   const sql = `SELECT id, email, first_name, last_name FROM users WHERE ${key} = ?`;
   const values = [value];
+
+  acceptableCriteria = ["email", "id"];
   
   return new Promise(async (resolve, reject) => {
+
+    if (!acceptableCriteria.includes(key)) {
+      const error = new Error("Unnaceptable search criteria");
+      error.status = 400;
+      reject(error);
+    }
+
     try {
       const response = await conn.query(sql, values);
       resolve(response);
@@ -26,8 +36,8 @@ const getUser = (criteria) => {
 const insertUser = (email, password, firstName, lastName) => {
   const conn = new db();
   const sql = "INSERT INTO users (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
-  const values = [email, password, firstName, lastName];
-  
+  const values = [email, password, firstName.capitalize(), lastName.capitalize()];
+
   return new Promise(async (resolve, reject) => {
     try {
       const response = await conn.query(sql, values);
