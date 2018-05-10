@@ -1,4 +1,5 @@
 const db = require("./../services/db");
+const bcrypt = require("bcrypt");
 const helpers = require("./../services/helpers");
 
 const getUser = (criteria) => {
@@ -10,9 +11,8 @@ const getUser = (criteria) => {
   const values = [value];
 
   acceptableCriteria = ["email", "username", "id"];
-  
-  return new Promise(async (resolve, reject) => {
 
+  return new Promise(async (resolve, reject) => {
     if (!acceptableCriteria.includes(key)) {
       const error = new Error("Unnacceptable search criteria");
       error.clientMessage = "Unnacceptable search criteria";
@@ -29,28 +29,37 @@ const getUser = (criteria) => {
       error.status = 400;
       reject(error);
     }
-  
+
     conn.close();
-  });  
+  });
 }
 
 const insertUser = (email, username, password) => {
   const conn = new db();
   const sql = "INSERT INTO users (email, username, password) VALUES (?, ?, ?)";
-  const values = [email, username, password];
 
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
-      const response = await conn.query(sql, values);
-      resolve(response);
+      bcrypt.hash(password, 10, async (error, hash) => {
+        if (error) {
+          const error = new Error(error.message);
+          error.clientMessage = "Database error";
+          error.status = 500;
+          reject(error);
+          return;
+        }
+        const values = [email, username, hash];
+        const response = await conn.query(sql, values);
+        resolve(response);
+        conn.close();
+      });
     } catch (e) {
       const error = new Error(e.sqlMessage);
       error.clientMessage = "Database error";
-      error.status = 400;
+      error.status = 500;
       reject(error);
+      conn.close();
     }
-  
-    conn.close();
   });
 };
 

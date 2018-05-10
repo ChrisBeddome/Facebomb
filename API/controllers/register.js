@@ -7,7 +7,7 @@ const registerNewUser = async (req, res, next) => {
     //check if email or username is  already in use
     let emailResponse = await usersModel.getUser({ email });
     let usernameResponse = await usersModel.getUser({ username })
-    
+
     if (emailResponse.length > 0 || usernameResponse.length > 0) {
       const error = emailResponse.length > 0 ? new Error("Email already in use") : new Error("Username already in use");
       error.clientMessage = emailResponse.length > 0 ? "Email already in use" : "Username already in use";
