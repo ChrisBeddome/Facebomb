@@ -27,9 +27,8 @@ POST: Register a new user.
 
 parameters: 
 * email - string - required
+* username - string - required
 * password - string - required
-* firstName - string - required
-* lastName - string - required
 
 
 

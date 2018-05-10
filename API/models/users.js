@@ -6,15 +6,16 @@ const getUser = (criteria) => {
   const key = Object.keys(criteria)[0];
   const value = criteria[key];
 
-  const sql = `SELECT id, email, first_name, last_name FROM users WHERE ${key} = ?`;
+  const sql = `SELECT id, email, username FROM users WHERE ${key} = ?`;
   const values = [value];
 
-  acceptableCriteria = ["email", "id"];
+  acceptableCriteria = ["email", "username", "id"];
   
   return new Promise(async (resolve, reject) => {
 
     if (!acceptableCriteria.includes(key)) {
-      const error = new Error("Unnaceptable search criteria");
+      const error = new Error("Unnacceptable search criteria");
+      error.clientMessage = "Unnacceptable search criteria";
       error.status = 400;
       reject(error);
     }
@@ -23,9 +24,9 @@ const getUser = (criteria) => {
       const response = await conn.query(sql, values);
       resolve(response);
     } catch (e) {
-      const error = new Error("Database error");
+      const error = new Error(e.sqlMessage);
+      error.clientMessage = "Database error";
       error.status = 400;
-      error.details = e;
       reject(error);
     }
   
@@ -33,19 +34,19 @@ const getUser = (criteria) => {
   });  
 }
 
-const insertUser = (email, password, firstName, lastName) => {
+const insertUser = (email, username, password) => {
   const conn = new db();
-  const sql = "INSERT INTO users (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
-  const values = [email, password, firstName.capitalize(), lastName.capitalize()];
+  const sql = "INSERT INTO users (email, username, password) VALUES (?, ?, ?)";
+  const values = [email, username, password];
 
   return new Promise(async (resolve, reject) => {
     try {
       const response = await conn.query(sql, values);
       resolve(response);
     } catch (e) {
-      const error = new Error("Database error");
+      const error = new Error(e.sqlMessage);
+      error.clientMessage = "Database error";
       error.status = 400;
-      error.details = e;
       reject(error);
     }
   

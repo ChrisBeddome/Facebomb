@@ -1,10 +1,11 @@
 const newUser = (req, res, next) => {
-  const {email, password, firstName, lastName} = req.body;
-  
-  const errorMessage = checkEmail(email) || checkPassword(password) || checkFirstName(firstName) || checkLastName(lastName);
+  const { email, username, password } = req.body;
+
+  const errorMessage = checkEmail(email) || checkUsername(username) || checkPassword(password);
 
   if (errorMessage) {
-    const error = new Error(errorMessage);
+    const error = new Error("registration credentials invalid");
+    error.clientMessage = errorMessage;
     error.status = 400;
     next(error);
   } else {
@@ -50,28 +51,21 @@ function checkPassword(password) {
   return null;
 }
 
-function checkFirstName(name) {
-  if (!name) {
-    return "must provide first name";
+function checkUsername(username) {
+  if (!username) {
+    return "must provide username";
   }
 
-  if (name.length > 255) {
-    return "first name too long";
+  if (username.length > 255) {
+    return "username too long";
   }
 
-  return null;
-}
-
-function checkLastName(name) {
-  if (!name) {
-    return "must provide last name";
-  }
-
-  if (name.length > 255) {
-    return "last name too long";
+  if (username.length < 3) {
+    return "username must be at least 3 characters";
   }
 
   return null;
 }
+
 
 module.exports.newUser = newUser;
