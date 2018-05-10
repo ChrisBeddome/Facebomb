@@ -2,9 +2,9 @@ const config = {
   port: process.env.PORT || 3000,
   database: {
     host: "localhost",
-    user: "facebomb_admin",
-    password: "facebomb_secret123",
-    database: "facebomb",
+    user: "jam_buds_admin",
+    password: "jam_buds_secret123",
+    database: "jam_buds",
     port: 3306
   }
 };

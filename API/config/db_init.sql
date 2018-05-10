@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS facebomb;
+DROP DATABASE IF EXISTS jam_buds;
 
-CREATE DATABASE facebomb;
+CREATE DATABASE jam_buds;
 
-USE facebomb;
+USE jam_buds;
 
 CREATE TABLE users (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -13,7 +13,7 @@ CREATE TABLE users (
     primary key (id)
 );
 
-GRANT ALL PRIVILEGES ON facebomb.* TO 'facebomb_admin'@'localhost' IDENTIFIED BY 'facebomb_secret123';
+GRANT ALL PRIVILEGES ON facebomb.* TO 'jam_buds_admin'@'localhost' IDENTIFIED BY 'jam_buds_secret123';
 
 
 
