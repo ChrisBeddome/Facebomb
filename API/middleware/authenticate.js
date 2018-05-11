@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 const config = require("./../config/config");
+const helpers = require("./../services/helpers")
 
 const authenticateUser = (req, res, next) => {
   // check header or url parameters or post parameters for token
-  const token = req.body.token || req.query.token || req.headers["authorization"];
+  const token = helpers.extractBearerToken(req.headers["authorization"]);
 
   // decode token
   if (token) {

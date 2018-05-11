@@ -48,7 +48,11 @@ returns:
 * message: string containing server response message
 * data: object containing user id, username, email, and access token
 
-Access token must be provided with all subsequent requests in the **authorization** HTTP header
+Access token must be provided with all subsequent requests in the **authorization** HTTP header:
+
+```
+Authorization: Bearer <access-token>
+```
 
 ## Errors
 
