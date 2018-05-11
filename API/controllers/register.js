@@ -14,12 +14,13 @@ const registerNewUser = async (req, res, next) => {
       next(error);
     } else {
       //insert user into database
-      response = await usersModel.insertUser(email, username, password);
+      let response = await usersModel.insertUser(email, username, password);
 
       //get users information and return success message to client
       const userInfo = await usersModel.getUser({ id: response.insertId });
       res.status(201);
       res.json({
+        success: true,
         message: "User registered",
         data: {
           id: userInfo.id,

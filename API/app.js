@@ -16,6 +16,13 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+//set CORS headers
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //entry point to API
 app.use("/", entryPoint);
 

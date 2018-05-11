@@ -1,13 +1,12 @@
 const db = require("./../services/db");
 const bcrypt = require("bcrypt");
-const helpers = require("./../services/helpers");
 
 const getUser = (criteria) => {
   const conn = new db();
   const key = Object.keys(criteria)[0];
   const value = criteria[key];
 
-  const sql = `SELECT id, email, username FROM users WHERE ${key} = ?`;
+  const sql = `SELECT id, email, username, city, province, country, bio, jam_space, image_url FROM users WHERE ${key} = ?`;
   const values = [value];
 
   acceptableCriteria = ["email", "username", "id"];
@@ -17,7 +16,7 @@ const getUser = (criteria) => {
       const error = new Error("Unnacceptable search criteria");
       error.clientMessage = "Unnacceptable search criteria";
       error.status = 400;
-      reject(error);
+      return reject(error);
     }
 
     try {
@@ -45,8 +44,7 @@ const insertUser = (email, username, password) => {
           const error = new Error(error.message);
           error.clientMessage = "Database error";
           error.status = 500;
-          reject(error);
-          return;
+          return reject(error);
         }
         const values = [email, username, hash];
         const response = await conn.query(sql, values);
@@ -77,8 +75,7 @@ const authenticateUser = (email, password) => {
         const error = new Error("Invalid login credentials");
         error.clientMessage = "Invalid login credentials";
         error.status = 400;
-        reject(error);
-        return;
+        return reject(error);
       }
 
       const user = response[0];
@@ -87,8 +84,7 @@ const authenticateUser = (email, password) => {
           const error = new Error(error.message);
           error.clientMessage = "Database error";
           error.status = 500;
-          reject(error);
-          return;
+          return reject(error);
         }
 
         if (match) {
