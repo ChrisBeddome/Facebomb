@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+const config = require("./../config/config");
 const usersModel = require("./../models/users");
 
 const loginUser = async (req, res, next) => {
@@ -6,11 +8,21 @@ const loginUser = async (req, res, next) => {
     //check credentials
     let user = await usersModel.authenticateUser(email, password);
 
+    //generate json web token containing user id
+    const payload = {
+      id: user.id
+    };
+    let token = jwt.sign(payload, config.jwtSecret, {
+      expiresIn: 60 * 60 * 24 // expires in 24 hours
+    });
+
     //send back user data of logged in user
-    res.status(201);
+    res.status(200);
     res.json({
+      success: true,
       message: "login successful",
       data: {
+        token: token,
         id: user.id,
         email: user.email,
         username: user.username

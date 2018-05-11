@@ -13,6 +13,7 @@ function logError(error, req, res, next) {
 function sendError(error, req, res, next) {
   res.status(error.status || 500);
   res.json({
+    success: false,
     error: error.clientMessage || "Internal server error"
   });
 }

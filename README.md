@@ -31,7 +31,8 @@ parameters:
 * password - string - required
 
 returns:
-* status message
+* success: boolean set to true
+* message: string containing server response message
 * data object containing user id, username, and email
 
 **/login**: 
@@ -43,8 +44,17 @@ parameters:
 * password - string - required
 
 returns:
-* status message
-* data object containing user id, username, email, and access token
+* success: boolean set to true
+* message: string containing server response message
+* data: object containing user id, username, email, and access token
 
+Access token must be provided with all subsequent requests in the **authorization** HTTP header
+
+## Errors
+
+All error responses will contain: 
+
+* success: boolean set to false
+* error: string containing error message
 
 
