@@ -16,6 +16,7 @@ const getUser = (criteria) => {
       const error = new Error("Unnacceptable search criteria");
       error.clientMessage = "Unnacceptable search criteria";
       error.status = 400;
+      conn.close();
       return reject(error);
     }
 

@@ -3,11 +3,15 @@ const config = require("./../config/config");
 const helpers = require("./../services/helpers")
 
 const authenticateUser = (req, res, next) => {
-  // check header or url parameters or post parameters for token
-  const token = helpers.extractBearerToken(req.headers["authorization"]);
-
+  // check header for token
+  let token = req.headers["authorization"] || null
+  
   // decode token
   if (token) {
+
+    //extract token from header
+    token = helpers.extractBearerToken(token);
+
     // verifies secret and checks exp
     jwt.verify(token, config.jwtSecret, function (error, decoded) {
       if (error) {

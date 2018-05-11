@@ -1,8 +1,8 @@
 const extractBearerToken = (token) => {
   if (token.charAt(0) === "B") {
-    return token.split("Bearer ", 1).join("");
+    return token.split("Bearer ").join("");
   } else {
-    return token.split("bearer ", 1).join("");
+    return token.split("bearer ").join("");
   }
 };
 
