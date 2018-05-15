@@ -12,5 +12,6 @@ router.get("/private", authenticate, function(req, res, next) {
   res.status(200);
   res.json({id: req.decodedToken.id});
 });
+//TEST
 
 module.exports = router;
