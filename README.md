@@ -21,9 +21,9 @@ $npm start
 
 ## End Points
 
-**/register**: 
+### /register: 
 
-POST: Register a new user.
+**POST**: Register a new user.
 
 parameters: 
 * email - string - required
@@ -35,9 +35,9 @@ returns:
 * message: string containing server response message
 * data: object containing user id, username, and email
 
-**/login**: 
+### /login: 
 
-POST: Log in to a registered account.
+**POST**: Log in to a registered account.
 
 parameters: 
 * email - string - required
@@ -54,9 +54,9 @@ Access token must be provided with all subsequent requests in the **authorizatio
 Authorization: Bearer <access-token>
 ```
 
-**/artists**: 
+###/artists : 
 
-GET: Search for an artist via spotify.
+**GET**: Search for an artist via spotify.
 
 parameters must be URL encoded.
 
