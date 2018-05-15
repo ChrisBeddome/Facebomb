@@ -54,7 +54,7 @@ Access token must be provided with all subsequent requests in the **authorizatio
 Authorization: Bearer <access-token>
 ```
 
-###/artists : 
+### /artists : 
 
 **GET**: Search for an artist via spotify.
 
