@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const registerRoute = require("./register");
 const loginRoute = require("./login");
+const artistsRoute = require("./artists");
 
 router.use("/register", registerRoute);
 router.use("/login", loginRoute);
+router.use("/artists", artistsRoute);
 
 //TEST
 const authenticate = require("./../middleware/authenticate");

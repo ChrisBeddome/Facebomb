@@ -33,7 +33,7 @@ parameters:
 returns:
 * success: boolean set to true
 * message: string containing server response message
-* data object containing user id, username, and email
+* data: object containing user id, username, and email
 
 **/login**: 
 
@@ -53,6 +53,20 @@ Access token must be provided with all subsequent requests in the **authorizatio
 ```
 Authorization: Bearer <access-token>
 ```
+
+**/artists**: 
+
+GET: Search for an artist via spotify.
+
+parameters must be URL encoded.
+
+parameters: 
+* term - string - required
+
+returns:
+* success: boolean set to true
+* message: string containing server response message
+* data: object containing array of artist information
 
 ## Errors
 

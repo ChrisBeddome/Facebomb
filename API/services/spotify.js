@@ -64,7 +64,7 @@ const getArtists = (searchTerm) => {
       cache: 'default'
     };
 
-    var request = `https://api.spotify.com/v1/search?q=${searchTerm}&type=artist&limit=15`;
+    const request = `https://api.spotify.com/v1/search?q=${searchTerm}&type=artist&limit=10`;
 
     fetch(request, settings).then(res => res.json()).then(body => {
       if (body.error) {
@@ -73,7 +73,7 @@ const getArtists = (searchTerm) => {
         error.status = 500;
         return reject(error);
       } else {
-        resolve(body);
+        resolve(body.artists.items);
       }
     });
   });
