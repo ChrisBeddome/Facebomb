@@ -1,4 +1,4 @@
-# Jam Buds
+# Jam Mates
 
 ## Setup
 

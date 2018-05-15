@@ -3,7 +3,10 @@ const bcrypt = require("bcrypt");
 
 const getUser = (criteria) => {
   const conn = new db();
+
+  //get the key to be searched
   const key = Object.keys(criteria)[0];
+  //get the value to be searched
   const value = criteria[key];
 
   const sql = `SELECT id, email, username, city, province, country, bio, jam_space, image_url FROM users WHERE ${key} = ?`;

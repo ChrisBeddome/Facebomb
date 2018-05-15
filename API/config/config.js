@@ -3,9 +3,9 @@ const config = {
   jwtSecret: "%g*se#$gjS/.T;w$kgWk))i58hSFm>S?e",
   database: {
     host: "localhost",
-    user: "jam_buds_admin",
-    password: "jam_buds_secret123",
-    database: "jam_buds",
+    user: "jam_mates_admin",
+    password: "jam_mates_secret123",
+    database: "jam_mates",
     port: 3306
   }
 };

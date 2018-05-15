@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS jam_buds;
+DROP DATABASE IF EXISTS jam_mates;
 
-CREATE DATABASE jam_buds;
+CREATE DATABASE jam_mates;
 
-USE jam_buds;
+USE jam_mates;
 
 CREATE TABLE users (
     id int(11) NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ ALTER TABLE users AUTO_INCREMENT = 59363698;
 -- instruments
 -- samples
 
-GRANT ALL PRIVILEGES ON jam_buds.* TO 'jam_buds_admin'@'localhost' IDENTIFIED BY 'jam_buds_secret123';
+GRANT ALL PRIVILEGES ON jam_mates.* TO 'jam_mates_admin'@'localhost' IDENTIFIED BY 'jam_mates_secret123';
 
 
 
