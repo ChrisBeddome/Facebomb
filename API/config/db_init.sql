@@ -12,7 +12,7 @@ CREATE TABLE users (
     city varchar(255),
     province varchar(255),
     country varchar(255),
-    bio varchar(1000),
+    bio varchar(255),
     jam_space int(1) DEFAULT 0,
     image_url varchar(255),      
     PRIMARY KEY (id)

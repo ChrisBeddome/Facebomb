@@ -21,7 +21,7 @@ $npm start
 
 ## End Points
 
-### /register: 
+### /register
 
 **POST**: Register a new user.
 
@@ -35,7 +35,7 @@ returns:
 * message: string containing server response message
 * data: object containing user id, username, and email
 
-### /login: 
+### /login
 
 **POST**: Log in to a registered account.
 
@@ -54,7 +54,7 @@ Access token must be provided with all subsequent requests in the **authorizatio
 Authorization: Bearer <access-token>
 ```
 
-### /users/:userID: 
+### /users/:userID
 
 **GET**: Get information about single user
 
@@ -117,7 +117,7 @@ example response:
 }
 ```
 
-### /artists : 
+### /artists
 
 **GET**: Search for an artist via spotify.
 

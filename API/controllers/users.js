@@ -38,42 +38,47 @@ const getUserInfo = async (req, res, next) => {
 };
 
 const updateUserInfo = async (req, res, next) => {
-
   const userID = req.decodedToken.id;
+
+  if (Number(req.params.userID) !== userID) {
+    const error = new Error("unauthorized");
+    error.clientMessage = "unauthorized";
+    error.status = 401;
+    return next(error);
+  }
+
   const params = req.body;
 
-   //must be in lowercase
-   const updatableParams = ["city", "province", "country", "bio", "jamspace"];
-   let filteredParams = [];
- 
-   //loop over params, filter out invalid params
-   for (var key in params) {
-     if (!params.hasOwnProperty(key)) {
-       continue;
-     }
- 
-     if (updatableParams.includes(key.toLowerCase())) {
-       let obj = {};
- 
-       //cast API keys to match database keys
-       if (key.toLowerCase() === "jamspace") {
-         obj.key = "jam_space";
-       } else {
-         obj.key = key;
-       }
-       if (obj.key === "jam_space") {
-         obj.value = params[key] ? 0 : 1;
-       }
-       obj.value = params[key];
-       filteredParams.push(obj);
-     }
-   }
+  const updatableParams = ["city", "province", "country", "bio", "jamSpace"];
+  let filteredParams = [];
+
+  //loop over params, filter out invalid params
+  for (var key in params) {
+    if (!params.hasOwnProperty(key)) {
+      continue;
+    }
+
+    if (updatableParams.includes(key.toLowerCase())) {
+      let obj = {};
+
+      //cast API keys to match database keys
+      if (key === "jamSpace") {
+        obj.key = "jam_space";
+      } else {
+        obj.key = key;
+      }
+      if (obj.key === "jam_space") {
+        obj.value = params[key] ? 0 : 1;
+      }
+      obj.value = params[key];
+      filteredParams.push(obj);
+    }
+  }
 
   try {
-
     //attempt to update user
     const response = await usersModel.updateUser(userID, filteredParams);
-    
+
     if (response.affectedRows < 1) {
       const error = new Error("Error updating user");
       error.clientMessage = "Database error";
@@ -90,7 +95,7 @@ const updateUserInfo = async (req, res, next) => {
       error.status = 400;
       return next(error);
     }
-    
+
     const { id, username, city, province, country, bio, jam_space, image_url } = user;
 
     const data = {

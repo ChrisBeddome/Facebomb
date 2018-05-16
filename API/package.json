@@ -1,7 +1,7 @@
 {
-  "name": "jam_buds_api",
+  "name": "jam_mates_api",
   "version": "1.0.0",
-  "description": "server api for Jam Buds",
+  "description": "server api for Jam Mates",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ChrisBeddome/Jam-Buds.git"
+    "url": "git+https://github.com/ChrisBeddome/Jam-Mates.git"
   },
   "author": "Chris Beddome",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ChrisBeddome/Jam-Buds/issues"
+    "url": "https://github.com/ChrisBeddome/Jam-Mates/issues"
   },
-  "homepage": "https://github.com/ChrisBeddome/Jam-Buds#readme",
+  "homepage": "https://github.com/ChrisBeddome/Jam-Mates#readme",
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",

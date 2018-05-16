@@ -82,8 +82,8 @@ const updateUser = (id, params) => {
 
   return new Promise(async (resolve, reject) => {
     if (params.length < 1) {
-      const error = new Error("Unnacceptable update parameters");
-      error.clientMessage = "Unnacceptable update parameters";
+      const error = new Error("Invalid update parameters");
+      error.clientMessage = "Invalid update parameters";
       error.status = 400;
       conn.close();
       return reject(error);
