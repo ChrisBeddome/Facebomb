@@ -66,6 +66,57 @@ returns:
 * message: string containing server response message
 * data: object containing user information
 
+**PATCH**: Update information of logged in user. 
+
+parameters (must contain at least one): 
+* city - string: full name of city
+* province - string: 2 character prov/state code
+* country - string: full name of country
+* bio - string: "user bio"
+* jamSpace - boolean: indicating whether or not user has a practice space
+
+example request headers:
+
+```
+Authorization: Bearer eyJhb...1I9652D4
+```
+
+example request body: 
+
+```
+{
+	"city" : "Toronto",
+	"province" : "ON", 
+	"country" : "Canada",
+	"bio" : "Jazz bass player looking for small group to play with",
+	"jamSpace" : true
+}
+```
+
+returns:
+* success: boolean set to true
+* message: string containing server response message
+* data: object containing user information
+
+example response: 
+
+```
+{
+    "success": true,
+    "message": "user updated",
+    "data": {
+        "id": 59363698,
+        "username": "test_user",
+        "city": "Toronto",
+        "province": "ON",
+        "country": "Canada",
+        "bio": "Jazz bass player looking for small group to play with",
+        "jamSpace": true,
+        "imageURL": null
+    }
+}
+```
+
 ### /artists : 
 
 **GET**: Search for an artist via spotify.

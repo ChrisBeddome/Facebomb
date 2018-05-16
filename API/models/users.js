@@ -65,6 +65,43 @@ const insertUser = (email, username, password) => {
   });
 };
 
+const updateUser = (id, params) => {
+
+  const conn = new db();
+  let sql = "UPDATE users SET ";
+
+  params.forEach(param => {
+    sql += `${param.key} = ?, `;
+  });
+
+  sql = sql.slice(0, sql.length - 2);
+  sql += " WHERE id = ?";
+
+  let values = params.map(param => param.value);
+  values.push(id);
+
+  return new Promise(async (resolve, reject) => {
+    if (params.length < 1) {
+      const error = new Error("Unnacceptable update parameters");
+      error.clientMessage = "Unnacceptable update parameters";
+      error.status = 400;
+      conn.close();
+      return reject(error);
+    }
+
+    try {
+      const response = await conn.query(sql, values);
+      resolve(response);
+    } catch (e) {
+      const error = new Error(e.sqlMessage);
+      error.clientMessage = "Database error";
+      error.status = 500;
+      reject(error);
+    }
+    conn.close();
+  });
+};
+
 const authenticateUser = (email, password) => {
   const conn = new db();
   const sql = "SELECT id, email, username, password FROM users WHERE email = ?";
@@ -112,4 +149,5 @@ const authenticateUser = (email, password) => {
 
 module.exports.insertUser = insertUser;
 module.exports.getUser = getUser;
+module.exports.updateUser = updateUser;
 module.exports.authenticateUser = authenticateUser;
