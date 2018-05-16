@@ -27,9 +27,7 @@ const searchArtists = async (req, res, next) => {
     res.json({
       success: true,
       message: "search successful",
-      data: {
-        artists
-      }
+      data: artists
     });
   } catch (error) {
     next(error);

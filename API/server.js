@@ -5,6 +5,7 @@ const spotify = require("./services/spotify");
 
 spotify.login().then(res => {
   config.spotify.setToken(res.access_token);
+  console.log("Spotify authentication successful")
 }).catch(res => {
   console.log("Error connecting to spotify");
   console.log(res);
@@ -12,3 +13,4 @@ spotify.login().then(res => {
 
 const server = http.createServer(app);
 server.listen(config.port);
+console.log(`Server started. Listening for requests on port ${config.port}...`)

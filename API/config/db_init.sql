@@ -13,7 +13,7 @@ CREATE TABLE users (
     province varchar(255),
     country varchar(255),
     bio varchar(1000),
-    jam_space bit(1) DEFAULT 0,
+    jam_space int(1) DEFAULT 0,
     image_url varchar(255),      
     PRIMARY KEY (id)
 );

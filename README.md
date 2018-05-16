@@ -54,6 +54,18 @@ Access token must be provided with all subsequent requests in the **authorizatio
 Authorization: Bearer <access-token>
 ```
 
+### /users/:userID: 
+
+**GET**: Get information about single user
+
+parameters: 
+* none
+
+returns:
+* success: boolean set to true
+* message: string containing server response message
+* data: object containing user information
+
 ### /artists : 
 
 **GET**: Search for an artist via spotify.
@@ -66,7 +78,7 @@ parameters:
 returns:
 * success: boolean set to true
 * message: string containing server response message
-* data: object containing array of artist information
+* data: array containing artist information
 
 ## Errors
 
