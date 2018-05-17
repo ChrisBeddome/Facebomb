@@ -70,8 +70,8 @@ returns:
 
 parameters (must contain at least one): 
 * city - string: full name of city
-* province - string: 2 character prov/state code
-* country - string: full name of country
+* province - string: full name of province / state / territory
+* country - string: 2 character IS02 country code
 * bio - string: "user bio"
 * jamSpace - boolean: indicating whether or not user has a practice space
 
@@ -86,8 +86,8 @@ example request body:
 ```
 {
 	"city" : "Toronto",
-	"province" : "ON", 
-	"country" : "Canada",
+	"province" : "Ontario", 
+	"country" : "CA",
 	"bio" : "Jazz bass player looking for small group to play with",
 	"jamSpace" : true
 }
@@ -108,8 +108,8 @@ example response:
         "id": 59363698,
         "username": "test_user",
         "city": "Toronto",
-        "province": "ON",
-        "country": "Canada",
+        "province": "Ontario",
+        "country": "CA",
         "bio": "Jazz bass player looking for small group to play with",
         "jamSpace": true,
         "imageURL": null

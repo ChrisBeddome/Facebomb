@@ -11,9 +11,7 @@ const entryPoint = require("./routes/entryPoint");
 app.use(morgan("dev"));
 
 //parsing
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //set CORS headers

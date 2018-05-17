@@ -1,3 +1,5 @@
+const countries = require("./../services/countries");
+
 const newUser = (req, res, next) => {
   const { email, username, password } = req.body;
 
@@ -16,14 +18,31 @@ const newUser = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const { city, province, country, bio, jamSpace } = req.body;
 
-  if (!city && !province && !country && !bio && !jamSpace) {
+  //values can be null, but at least one must be defined
+  if (typeof(city) === "undefined" && typeof(province) === "undefined" && typeof(country) === "undefined" && typeof(bio) === "undefined" && typeof(city) === "undefined") {
     const error = new Error("No valid update parameters provided");
     error.clientMessage = "No valid update parameters provided";
     error.status = 400;
     next(error);
   }
 
-  const errorMessage = checkCity(city) || checkProvince(province) || checkCountry(country) || checkBio(bio) || checkJamSpace(jamSpace);
+  let errorMessage = null;
+
+  if (city && !errorMessage) {
+    errorMessage = checkCity(city);
+  }
+  if (province && !errorMessage) {
+    errorMessage = checkProvince(province);
+  }
+  if (country && !errorMessage) {
+    errorMessage = checkCountry(country);
+  }
+  if (bio && !errorMessage) {
+    errorMessage = checkBio(bio);
+  }
+  if (jamSpace && !errorMessage) {
+    errorMessage = checkJamSpace(jamSpace);
+  }
 
   if (errorMessage) {
     const error = new Error("one or more update parameters invalid");
@@ -90,6 +109,10 @@ function checkUsername(username) {
 }
 
 function checkCity(city) {
+  if (city === null) {
+    return null;
+  }
+
   if (city.length > 255) {
     return "city too long";
   }
@@ -102,6 +125,10 @@ function checkCity(city) {
 }
 
 function checkProvince(province) {
+  if (province === null) {
+    return null;
+  }
+
   if (province.length > 255) {
     return "province too long";
   }
@@ -114,18 +141,26 @@ function checkProvince(province) {
 }
 
 function checkCountry(country) {
-  if (country.length > 255) {
-    return "country too long";
+  if (country === null) {
+    return null;
   }
 
-  if (country.length < 2) {
-    return "country must be at least 2 characters";
+  if (country.length !== 2) {
+    return "country must be valid 2-letter IS02 code";
+  }
+
+  if (!countries.checkCountryExists(country)) {
+    return "country must be valid 2-letter IS02 code";
   }
 
   return null;
 }
 
 function checkBio(bio) {
+  if (bio === null) {
+    return null;
+  }
+
   if (bio.length > 255) {
     return "bio too long";
   }

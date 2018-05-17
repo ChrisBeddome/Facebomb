@@ -1,22 +1,22 @@
-function generateNotFoundError(req, res, next) {
+const generateNotFoundError = (req, res, next) => {
   const error = new Error("Not found");
   error.clientMessage = "Not Found";
   error.status = 404;
   next(error);
-}
+};
 
-function logError(error, req, res, next) {
+const logError = (error, req, res, next) => {
   console.log(error);
   next(error);
-}
+};
 
-function sendError(error, req, res, next) {
+const sendError = (error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     success: false,
     error: error.clientMessage || "Internal server error"
   });
-}
+};
 
 module.exports.generateNotFoundError = generateNotFoundError;
 module.exports.logError = logError;
