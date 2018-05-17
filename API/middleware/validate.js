@@ -28,19 +28,19 @@ const updateUser = (req, res, next) => {
 
   let errorMessage = null;
 
-  if (city && !errorMessage) {
+  if (typeof(city) !== "undefined" && !errorMessage) {
     errorMessage = checkCity(city);
   }
-  if (province && !errorMessage) {
+  if (typeof(province) !== "undefined" && !errorMessage) {
     errorMessage = checkProvince(province);
   }
-  if (country && !errorMessage) {
+  if (typeof(country) !== "undefined" && !errorMessage) {
     errorMessage = checkCountry(country);
   }
-  if (bio && !errorMessage) {
+  if (typeof(bio) !== "undefined" && !errorMessage) {
     errorMessage = checkBio(bio);
   }
-  if (jamSpace && !errorMessage) {
+  if (typeof(city) !== "undefined" && !errorMessage) {
     errorMessage = checkJamSpace(jamSpace);
   }
 

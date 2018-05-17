@@ -1,5 +1,6 @@
 const usersModel = require("./../models/users");
 const countries = require("./../services/countries");
+const helpers = require("./../services/helpers");
 
 const getUserInfo = async (req, res, next) => {
   const userID = req.params.userID;
@@ -55,7 +56,7 @@ const updateUserInfo = async (req, res, next) => {
       let obj = {};
 
       //cast API keys to match database keys
-      if (key === "jamSpace") {
+      if (key.toLowerCase() === "jamspace") {
         obj.key = "jam_space";
       } else {
         obj.key = key.toLowerCase();
@@ -63,7 +64,18 @@ const updateUserInfo = async (req, res, next) => {
       if (obj.key === "jam_space") {
         obj.value = params[key] ? 0 : 1;
       }
-      obj.value = params[key];
+      else if (obj.key === "country") {
+        obj.value = params[key].toUpperCase();
+      }
+      else if (obj.key === "province") {
+        obj.value = params[key].toLowerCase();
+      }
+      else if (obj.key === "city") {
+        obj.value = helpers.capitalize(params[key]);
+      }
+      else {
+        obj.value = params[key];
+      }
       filteredParams.push(obj);
     }
   }
@@ -92,7 +104,6 @@ const updateUserInfo = async (req, res, next) => {
         }
 
       } catch (error) {
-        console.log(error);
         let err = new Error("database error");
         err.clientMessage = "database error";
         err.status = 400;

@@ -6,5 +6,14 @@ const extractBearerToken = (token) => {
   }
 };
 
+const capitalize = (string) => {
+  let result = string.split(" ").map(word => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(" ");
+
+  return result;
+};
+
 module.exports.extractBearerToken = extractBearerToken;
+module.exports.capitalize = capitalize;
 
