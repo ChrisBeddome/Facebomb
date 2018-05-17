@@ -40,13 +40,6 @@ const getUserInfo = async (req, res, next) => {
 const updateUserInfo = async (req, res, next) => {
   const userID = req.decodedToken.id;
 
-  if (Number(req.params.userID) !== userID) {
-    const error = new Error("unauthorized");
-    error.clientMessage = "unauthorized";
-    error.status = 401;
-    return next(error);
-  }
-
   const params = req.body;
 
   const updatableParams = ["city", "province", "country", "bio", "jamSpace"];

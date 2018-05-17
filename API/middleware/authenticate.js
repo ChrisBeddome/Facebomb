@@ -22,6 +22,7 @@ const authenticateUser = (req, res, next) => {
       } else {
         // if everything is good, save to request for use in other routes
         req.decodedToken = decoded;
+        console.log(decoded);
         next();
       }
     });
