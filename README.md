@@ -23,7 +23,7 @@ $npm start
 
 ## /register
 
-###POST
+### POST
 Register a new user.
 
 parameters: 
@@ -38,7 +38,7 @@ returns:
 
 ## /login
 
-###POST 
+### POST 
 Log in to a registered account.
 
 parameters: 
@@ -58,7 +58,7 @@ Authorization: Bearer <access-token>
 
 ## /users/:userID
 
-###GET 
+### GET 
 Get all information about single user
 
 parameters: 
@@ -71,7 +71,7 @@ returns:
 
 ## /users/:userID/info
 
-###GET 
+### GET 
 Get profile information about single user
 
 parameters: 
@@ -101,7 +101,7 @@ example response:
 }
 ```
 
-###PATCH
+### PATCH
 Update profile information of user. 
 
 parameters (must contain at least one): 
@@ -155,7 +155,7 @@ example response:
 
 ## /users/:userID/influences
 
-###GET 
+### GET 
 Get musical influences for single user
 
 parameters: 
@@ -187,7 +187,7 @@ example response:
 }
 ```
 
-###POST
+### POST
 add musical influence to user
 
 parameters: 
@@ -235,7 +235,7 @@ example response:
 
 ## /artists
 
-###GET
+### GET
 Search for an artist via spotify.
 
 parameters must be URL encoded.
