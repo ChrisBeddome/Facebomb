@@ -1,4 +1,5 @@
 const countries = require("./../services/countries");
+const usersModel = require("./../models/users");
 
 const newUser = (req, res, next) => {
   const { email, username, password } = req.body;
@@ -15,11 +16,12 @@ const newUser = (req, res, next) => {
   }
 };
 
-const updateUser = (req, res, next) => {
+const updateUser = async (req, res, next) => {
   const { city, province, country, bio, jamSpace } = req.body;
 
   //values can be null, but at least one must be defined
-  if (typeof(city) === "undefined" && typeof(province) === "undefined" && typeof(country) === "undefined" && typeof(bio) === "undefined" && typeof(city) === "undefined") {
+  //must supply at least one value to update, if no values given, send error message
+  if (typeof (city) === "undefined" && typeof (province) === "undefined" && typeof (country) === "undefined" && typeof (bio) === "undefined" && typeof (city) === "undefined") {
     const error = new Error("No valid update parameters provided");
     error.clientMessage = "No valid update parameters provided";
     error.status = 400;
@@ -28,29 +30,57 @@ const updateUser = (req, res, next) => {
 
   let errorMessage = null;
 
-  if (typeof(city) !== "undefined" && !errorMessage) {
+  if (typeof (city) !== "undefined" && !errorMessage) {
     errorMessage = checkCity(city);
   }
-  if (typeof(province) !== "undefined" && !errorMessage) {
+  if (typeof (province) !== "undefined" && !errorMessage) {
     errorMessage = checkProvince(province);
   }
-  if (typeof(country) !== "undefined" && !errorMessage) {
+  if (typeof (country) !== "undefined" && !errorMessage) {
     errorMessage = checkCountry(country);
   }
-  if (typeof(bio) !== "undefined" && !errorMessage) {
+  if (typeof (bio) !== "undefined" && !errorMessage) {
     errorMessage = checkBio(bio);
   }
-  if (typeof(city) !== "undefined" && !errorMessage) {
+  if (typeof (city) !== "undefined" && !errorMessage) {
     errorMessage = checkJamSpace(jamSpace);
+  }
+
+  if (!errorMessage) {
+
+    //if user supplied province but no country, we must check that the province provided exists within the country stored in database
+    //if user supplied both province and country, we must check that the province exists within the country provided
+    if (typeof (province) !== "undefined" && province !== null) {
+
+      if (typeof (country) === "undefined") {
+        try {
+          const userID = req.params.userID;
+          const user = await usersModel.getUser({ id: userID });
+
+          if (!user) {
+            errorMessage = "user not found";
+          } else if (!countries.checkProvInCountry(province, user.country)) {
+            errorMessage = "province not found within country stored for user, provide valid province or update country";
+          }
+
+        } catch (error) {
+          errorMessage = "database error";
+        }
+      } else if (country !== null) {
+        if (!countries.checkProvInCountry(province, country)) {
+          errorMessage = "province not found within country provided";
+        }
+      }
+    }
   }
 
   if (errorMessage) {
     const error = new Error("one or more update parameters invalid");
     error.clientMessage = errorMessage;
     error.status = 400;
-    next(error);
+    return next(error);
   } else {
-    next();
+    return next();
   }
 };
 

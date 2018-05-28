@@ -61,6 +61,7 @@ const updateUserInfo = async (req, res, next) => {
       } else {
         obj.key = key.toLowerCase();
       }
+      //API accepts "true" and "false", database expects 0 or 1
       if (obj.key === "jam_space") {
         obj.value = params[key] ? 0 : 1;
       }
@@ -77,47 +78,6 @@ const updateUserInfo = async (req, res, next) => {
         obj.value = params[key];
       }
       filteredParams.push(obj);
-    }
-  }
-
-  //if user supplied province but no country, we must check that the province provided exists within the country stored in database
-  //if user supplied both province and country, we must check that the province exists within the country provided
-  if (filteredParams.map(param => param.key).includes("province") && filteredParams.find(param => param.key === "province").value !== null) {
-    let prov = filteredParams.find(param => param.key === "province").value;
-
-    if (!filteredParams.map(param => param.key).includes("country")) {
-      try {
-        const user = await usersModel.getUser({ id: userID });
-
-        if (!user) {
-          const error = new Error("user not found");
-          error.clientMessage = "user not found";
-          error.status = 400;
-          return next(error);
-        }
-
-        if (!countries.checkProvInCountry(prov, user.country)) {
-          const error = new Error("province country mismatch");
-          error.clientMessage = "province not found within country stored";
-          error.status = 400;
-          return next(error);
-        }
-
-      } catch (error) {
-        let err = new Error("database error");
-        err.clientMessage = "database error";
-        err.status = 400;
-        return next(err);
-      }
-
-    } else {
-      let countryCode = filteredParams.find(param => param.key === "country").value;
-      if (countryCode !== null && !countries.checkProvInCountry(prov, countryCode)) {
-        const error = new Error("province country mismatch");
-        error.clientMessage = "province not found within country provided";
-        error.status = 400;
-        return next(error);
-      }
     }
   }
 
