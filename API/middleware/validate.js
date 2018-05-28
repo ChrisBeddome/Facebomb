@@ -1,5 +1,6 @@
 const countries = require("./../services/countries");
 const usersModel = require("./../models/users");
+const spotify = require("./../services/spotify");
 
 const newUser = (req, res, next) => {
   const { email, username, password } = req.body;
@@ -81,6 +82,36 @@ const updateUser = async (req, res, next) => {
     return next(error);
   } else {
     return next();
+  }
+};
+
+const addInfluence = async (req, res, next) => {
+  const artists = req.body.artistIDs;
+  let errorMessage = null;
+  if (artists.length < 1 || !artists) {
+    errorMessage = "must provide at least one artist ID";
+  }
+
+  //map artist IDs to artist names via spotify, if any IDs are invalid, respond with error
+  const response = await spotify.checkIDs(artists);
+  if (response.includes(null)) {
+    errorMessage = `invalid artist ID: ${artists[response.indexOf(null)]}`;
+  } 
+
+  if (errorMessage) {
+    const error = new Error("one or more invalid artist IDs");
+    error.clientMessage = errorMessage;
+    error.status = 400;
+    next(error);
+  } else {
+    //if all ID's are valid, update req body to include artist names
+    req.artists = response.map(artist => { 
+      return {
+        artistID: artist.id, 
+        artistName: artist.name 
+      }
+    });
+    next();
   }
 };
 
@@ -212,3 +243,4 @@ function checkJamSpace(jamSpace) {
 
 module.exports.newUser = newUser;
 module.exports.updateUser = updateUser;
+module.exports.addInfluence = addInfluence;

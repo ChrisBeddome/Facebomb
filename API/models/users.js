@@ -66,7 +66,6 @@ const insertUser = (email, username, password) => {
 };
 
 const updateUser = (id, params) => {
-
   const conn = new db();
   let sql = "UPDATE users SET ";
 
@@ -147,7 +146,59 @@ const authenticateUser = (email, password) => {
   });
 };
 
+const getUserInfluences = (userID) => {
+  const conn = new db();
+
+  const sql = `SELECT id, artist_id, artist_name FROM user_influences WHERE user_id = ?`;
+  const values = [userID];
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await conn.query(sql, values);
+      resolve(response);
+    } catch (e) {
+      const error = new Error(e.sqlMessage);
+      error.clientMessage = "Database error";
+      error.status = 500;
+      reject(error);
+    }
+    conn.close();
+  });
+};
+
+const addInfluence = (userID, artists) => {
+  const conn = new db();
+
+  //format query
+  const values = [artists.map(artist => {
+    return [Number(userID), artist.artistID, artist.artistName];
+  })];
+
+  const sql = "INSERT INTO user_influences (user_id, artist_id, artist_name) VALUES ?";
+  
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await conn.query(sql, values);
+      console.log(response);//dsfsdfdsfds
+      resolve(response);
+    } catch (e) {
+      const error = new Error(e.sqlMessage);
+      error.clientMessage = "Database error";
+      error.status = 500;
+      reject(error);
+    }
+    conn.close();
+  });
+};
+
 module.exports.insertUser = insertUser;
 module.exports.getUser = getUser;
 module.exports.updateUser = updateUser;
 module.exports.authenticateUser = authenticateUser;
+module.exports.getUserInfluences = getUserInfluences;
+module.exports.addInfluence = addInfluence;
+
+
+
+
+

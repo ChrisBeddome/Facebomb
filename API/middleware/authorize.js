@@ -1,4 +1,4 @@
-const updateUser = (req, res, next) => {
+const checkIdMatchesToken = (req, res, next) => {
   if (Number(req.params.userID) !== req.decodedToken.id) {
     const error = new Error("unauthorized");
     error.clientMessage = "unauthorized";
@@ -9,4 +9,4 @@ const updateUser = (req, res, next) => {
   }
 };
 
-module.exports.updateUser = updateUser;
+module.exports.checkIdMatchesToken = checkIdMatchesToken;

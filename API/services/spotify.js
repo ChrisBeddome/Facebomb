@@ -79,5 +79,49 @@ const getArtists = (searchTerm) => {
   });
 }
 
+const checkIDs = (artistIDs) => {
+  const clientID = config.spotify.clientID;
+  const clientSecret = config.spotify.clientSecret;
+  let token = config.spotify.token;
+
+  artistIDs = artistIDs.join(",");
+
+  return new Promise((resolve, reject) => {
+    if (!token) {
+      const error = new Error("Spotify access token not set");
+      error.clientMessage = "Database error";
+      error.status = 500;
+      return reject(error);
+    }
+
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+
+    const settings = {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      cache: 'default'
+    };
+
+    const request = `https://api.spotify.com/v1/artists?ids=${artistIDs}`;
+
+    fetch(request, settings).then(res => res.json()).then(body => {
+      if (body.error) {
+        const error = new Error(body.error.message);
+        error.clientMessage = "Database error";
+        error.status = 500;
+        return reject(error);
+      } else {
+        resolve(body.artists);
+      }
+    });
+  });
+}
+
 module.exports.login = login;
 module.exports.getArtists = getArtists;
+module.exports.checkIDs = checkIDs;

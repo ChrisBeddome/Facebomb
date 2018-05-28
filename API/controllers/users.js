@@ -2,6 +2,16 @@ const usersModel = require("./../models/users");
 const countries = require("./../services/countries");
 const helpers = require("./../services/helpers");
 
+//not implemeneted
+const getUserAll = async (req, res, next) => {
+  res.status(200);
+  res.json({
+    success: true,
+    message: "not yet implemented"
+  });
+};
+
+//get user info from database and send response
 const getUserInfo = async (req, res, next) => {
   const userID = req.params.userID;
 
@@ -39,6 +49,7 @@ const getUserInfo = async (req, res, next) => {
   }
 };
 
+//update user info and send response
 const updateUserInfo = async (req, res, next) => {
   const userID = req.decodedToken.id;
   const params = req.body;
@@ -126,5 +137,55 @@ const updateUserInfo = async (req, res, next) => {
   }
 };
 
+//get musical influences of user and send response
+const getUserInfluences = async (req, res, next) => {
+  const userID = req.params.userID;
+
+  try {
+    let artists = await usersModel.getUserInfluences(userID);
+
+    artists = artists.map(artist => {
+      return {
+        id: artist.id,
+        artistID: artist.artist_id,
+        artistName: artist.artist_name
+      };
+    });
+
+    res.status(200);
+    res.json({
+      success: true,
+      message: "search successful",
+      data: artists
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//add new musical influence to user and send response
+const addInfluence = async (req, res, next) => {
+  const userID = req.params.userID
+  const artists = req.artists;
+
+  try {
+    let response = await usersModel.addInfluence(userID, artists);
+    let influences = await usersModel.getUserInfluences(userID);
+
+    res.status(200);
+    res.json({
+      success: true,
+      message: "influence added",
+      data: influences
+    });
+  } catch (error) {
+    next(error);
+  }
+
+};
+
+module.exports.getUserAll = getUserAll;
 module.exports.getUserInfo = getUserInfo;
 module.exports.updateUserInfo = updateUserInfo;
+module.exports.getUserInfluences = getUserInfluences;
+module.exports.addInfluence = addInfluence;

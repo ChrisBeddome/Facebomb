@@ -56,7 +56,7 @@ Authorization: Bearer <access-token>
 
 ### /users/:userID
 
-**GET**: Get information about single user
+**GET**: Get all information about single user
 
 parameters: 
 * none
@@ -66,7 +66,38 @@ returns:
 * message: string containing server response message
 * data: object containing user information
 
-**PATCH**: Update information of logged in user. 
+### /users/:userID/info
+
+**GET**: Get profile information about single user
+
+parameters: 
+* none
+
+returns:
+* success: boolean set to true
+* message: string containing server response message
+* data: object containing user profile information
+
+example response: 
+
+```
+{
+    "success": true,
+    "message": "search successful",
+    "data": {
+        "id": 59363698,
+        "username": "test_user",
+        "city": "Toronto",
+        "province": "Ontario",
+        "country": "CA",
+        "bio": "Jazz bass player looking for small group to play with",
+        "jamSpace": true,
+        "imageURL": null
+    }
+}
+```
+
+**PATCH**: Update profile information of user. 
 
 parameters (must contain at least one): 
 * city - string: full name of city
@@ -117,6 +148,70 @@ example response:
 }
 ```
 
+### /users/:userID/influences
+
+**GET**: Get musical influences for single user
+
+parameters: 
+* none
+
+returns:
+* success: boolean set to true
+* message: string containing server response message
+* data: array containing artist detail objects
+
+example response: 
+
+```
+{
+    "success": true,
+    "message": "search successful",
+    "data": [
+        {
+            "id": 49249276,
+            "artistID": "1aEYCT7t18aM3VvM6y8oVR",
+            "artistName": "Alkaline Trio"
+        },
+        {
+            "id": 2354937,
+            "artistID": "6hAUCkzZpoYGObd8qFW5TT",
+            "artistName": "Pokey LaFarge"
+        }
+    ]
+}
+```
+
+**POST** add musical influence to user
+
+parameters: 
+* artistIDs - array of strings - required: array containing spotify IDs of artists
+
+returns:
+* success: boolean set to true
+* message: string containing server response message
+* data: array containing artist detail objects
+
+example response: 
+
+```
+{
+    "success": true,
+    "message": "influence added",
+     "data": [
+        {
+            "id": 49249276,
+            "artistID": "1aEYCT7t18aM3VvM6y8oVR",
+            "artistName": "Alkaline Trio"
+        },
+        {
+            "id": 2354937,
+            "artistID": "6hAUCkzZpoYGObd8qFW5TT",
+            "artistName": "Pokey LaFarge"
+        }
+    ]
+}
+```
+
 ### /artists
 
 **GET**: Search for an artist via spotify.
@@ -130,6 +225,37 @@ returns:
 * success: boolean set to true
 * message: string containing server response message
 * data: array containing artist information
+
+example response: 
+
+```
+{
+    "success": true,
+    "message": "search successful",
+    "data": [
+        {
+            "id": "3WrFJ7ztbogyGnTHbHJFl2",
+            "name": "The Beatles"
+        },
+        {
+            "id": "2NUpOkMGBeKWAPI0Ckn6gx",
+            "name": "Lopez Beatles"
+        },
+        {
+            "id": "1UarLtyjvxGiRTsfFXxtnA",
+            "name": "The Tape-beatles"
+        },
+        {
+            "id": "1hsiU6wK0AYDtUEWkQHHx3",
+            "name": "Beatles Para Crianças"
+        },
+        {
+            "id": "3cBV24PM5nZsXqopSHvdtS",
+            "name": "The Beatles Recovered Band"
+        }
+    ]
+}
+```
 
 ## Errors
 
