@@ -1,6 +1,6 @@
 # Jam Mates
 
-## Setup
+# Setup
 
 Install dependencies:
 ```
@@ -19,11 +19,12 @@ To start server, navigate to API directory and run:
 $npm start
 ```
 
-## End Points
+# End Points
 
-### /register
+## /register
 
-**POST**: Register a new user.
+###POST
+Register a new user.
 
 parameters: 
 * email - string - required
@@ -35,9 +36,10 @@ returns:
 * message: string containing server response message
 * data: object containing user id, username, and email
 
-### /login
+## /login
 
-**POST**: Log in to a registered account.
+###POST 
+Log in to a registered account.
 
 parameters: 
 * email - string - required
@@ -54,9 +56,10 @@ Access token must be provided with all subsequent requests in the **authorizatio
 Authorization: Bearer <access-token>
 ```
 
-### /users/:userID
+## /users/:userID
 
-**GET**: Get all information about single user
+###GET 
+Get all information about single user
 
 parameters: 
 * none
@@ -66,9 +69,10 @@ returns:
 * message: string containing server response message
 * data: object containing user information
 
-### /users/:userID/info
+## /users/:userID/info
 
-**GET**: Get profile information about single user
+###GET 
+Get profile information about single user
 
 parameters: 
 * none
@@ -97,7 +101,8 @@ example response:
 }
 ```
 
-**PATCH**: Update profile information of user. 
+###PATCH
+Update profile information of user. 
 
 parameters (must contain at least one): 
 * city - string: full name of city
@@ -148,9 +153,10 @@ example response:
 }
 ```
 
-### /users/:userID/influences
+## /users/:userID/influences
 
-**GET**: Get musical influences for single user
+###GET 
+Get musical influences for single user
 
 parameters: 
 * none
@@ -181,7 +187,8 @@ example response:
 }
 ```
 
-**POST** add musical influence to user
+###POST
+add musical influence to user
 
 parameters: 
 * artistIDs - array of strings - required: array containing spotify IDs of artists
@@ -190,6 +197,20 @@ returns:
 * success: boolean set to true
 * message: string containing server response message
 * data: array containing artist detail objects
+
+example request headers:
+
+```
+Authorization: Bearer eyJhb...1I9652D4
+```
+
+example request body: 
+
+```
+{
+   "artistIDs": ["1aEYCT7t18aM3VvM6y8oVR", "6hAUCkzZpoYGObd8qFW5TT"]
+}
+```
 
 example response: 
 
@@ -212,9 +233,10 @@ example response:
 }
 ```
 
-### /artists
+## /artists
 
-**GET**: Search for an artist via spotify.
+###GET
+Search for an artist via spotify.
 
 parameters must be URL encoded.
 
@@ -257,7 +279,7 @@ example response:
 }
 ```
 
-## Errors
+# Errors
 
 All error responses will contain: 
 
