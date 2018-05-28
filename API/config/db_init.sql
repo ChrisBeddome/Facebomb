@@ -18,7 +18,16 @@ CREATE TABLE users (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE user_influences (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    user_id int(11) NOT NULL,
+    artist_id varchar(255) NOT NULL, 
+    artist_name varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 ALTER TABLE users AUTO_INCREMENT = 59363698;
+ALTER TABLE user_influences ADD FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 -- gear
 -- influences
