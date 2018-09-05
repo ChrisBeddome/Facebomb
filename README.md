@@ -248,6 +248,12 @@ returns:
 * message: string containing server response message
 * data: array containing artist information
 
+example request: 
+
+```
+127.0.0.1:3000/artists?term=Beatles
+```
+
 example response: 
 
 ```
